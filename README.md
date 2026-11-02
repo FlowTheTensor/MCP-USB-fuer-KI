@@ -1,5 +1,6 @@
-# MCP – USB für KI
 
+# MCP – USB für KI
+# [Starten](https://flowthetensor.github.io/MCP-USB-fuer-KI/)
 Interaktive Lernseite zum **Model Context Protocol (MCP)** und zu **JSON-RPC**, geeignet für alle Schularten.
 Ein KI-Kern ist isoliert. In sechs Leveln verbinden die Lernenden ihn mit der Außenwelt und erreichen jeweils eine „Clearance“.
 
