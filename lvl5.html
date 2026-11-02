@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LVL 5 · Entwirf dein eigenes Modul – MCP – USB für KI</title>
+<meta name="description" content="Interaktive Lernseite zum Model Context Protocol (MCP) und JSON-RPC: Verbinde den KI-Kern Level für Level mit der Außenwelt.">
+<meta property="og:title" content="MCP – USB für KI">
+<meta property="og:description" content="Verbinde die Maschinen. Sprich ihre Sprache. Interaktive Lernseite zu MCP und JSON-RPC.">
+<meta property="og:image" content="img/og-image.png">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-text">MCP <span class="dim">–</span> USB für KI</span>
+  </a>
+  <nav class="lvl-nav" id="lvl-nav" aria-label="Level"></nav>
+</header>
+
+<a class="pinned-logo" href="https://www.bsnes.de" target="_blank" rel="noopener" title="Zur Homepage der Jakob-Preh-Schule">
+  <img src="img/logoschulecyber-klein.png" alt="Jakob-Preh-Schule">
+</a>
+
+<main id="top">
+
+<section class="level" id="lvl5" data-level="5">
+  <header class="lvl-head">
+    <span class="lvl-tag">LVL 5 // ARCHITECT</span>
+    <h2>Entwirf dein eigenes Modul</h2>
+    <p class="lvl-sub">Jetzt baust du selbst einen Anschluss für den Kern.</p>
+    <figure class="img-slot banner">
+      <img src="img/lvl5-architect.png" alt="Leuchtende Blaupause eines neuen Moduls mit USB-C-Anschluss" onerror="this.closest('figure').classList.add('missing')">
+      <div class="ph">img/lvl5-architect.png</div>
+    </figure>
+  </header>
+
+  <article class="station" id="lvl5-s1">
+    <div class="crumb">LVL 5 · Station 1 · <span class="tag">Interaktiv</span></div>
+    <h3>Tool-Designer</h3>
+    <p>Definiere ein Werkzeug. Der Designer erzeugt daraus den Eintrag, den <code>tools/list</code> liefern würde,
+      und ein Grundgerüst in Python mit der Bibliothek <strong>FastMCP</strong>.</p>
+    <div class="widget" id="designer">
+      <div class="controls col">
+        <label>Name des Tools <input id="td-name" value="durchschnittsnote" spellcheck="false"></label>
+        <label>Beschreibung (die liest das LLM!)
+          <textarea id="td-desc" rows="2">Berechnet den Notendurchschnitt einer Schülerin oder eines Schülers in einem Fach.</textarea></label>
+        <div id="td-params"></div>
+        <button class="btn ghost small" id="td-add">+ Parameter</button>
+      </div>
+      <div id="td-check" class="readout"></div>
+      <div class="tabs">
+        <button class="btn small sel" data-tab="json">tools/list-Eintrag</button>
+        <button class="btn small" data-tab="py">Python (FastMCP)</button>
+      </div>
+      <pre class="json" id="td-json"></pre>
+      <pre class="py" id="td-py" hidden></pre>
+    </div>
+  </article>
+
+  <article class="station" id="lvl5-s2">
+    <div class="crumb">LVL 5 · Station 2 · <span class="tag">Praxis</span></div>
+    <h3>Ein echter Server: SQLite-per-MCP</h3>
+    <p>So kurz kann ein echter MCP-Server sein. FastMCP baut aus dem <strong>Funktionsnamen</strong>, den
+      <strong>Typangaben</strong> und dem <strong>Docstring</strong> automatisch den <code>tools/list</code>-Eintrag samt inputSchema.</p>
+<pre class="py">from fastmcp import FastMCP
+
+mcp = FastMCP("SQLite Schul-Datenbank")
+
+@mcp.tool()
+def query_database(query: str) -> str:
+    """Führt eine SQL SELECT-Abfrage auf der Schul-Datenbank aus."""
+    if not query.strip().upper().startswith("SELECT"):
+        return "Fehler: Nur SELECT-Abfragen sind erlaubt!"
+    ...  # Abfrage ausführen, Ergebnis als JSON zurückgeben
+
+if __name__ == "__main__":
+    mcp.run(transport="stdio")</pre>
+    <p>Das vollständige Projekt mit Installationsanleitung:
+      <a href="https://github.com/FlowTheTensor/SQLite-per-MCP" target="_blank" rel="noopener">github.com/FlowTheTensor/SQLite-per-MCP</a></p>
+    <details class="tasks" open>
+      <summary>Projektaufträge</summary>
+      <ol>
+        <li>Installiere den Server nach Anleitung und binde ihn in Claude Desktop ein.</li>
+        <li>Stelle Fragen in natürlicher Sprache und beobachte, welche Tools aufgerufen werden.</li>
+        <li>Ergänze ein eigenes Tool, z. B. <code>durchschnittsnote(schueler_id, fach)</code>. Entwirf es zuerst im Tool-Designer.</li>
+        <li>Teste, wie stark die <em>Beschreibung</em> beeinflusst, ob das LLM dein Tool auswählt.</li>
+        <li>Diskutiert: Welche Tools sollte ein Schul-Server <em>auf keinen Fall</em> anbieten?</li>
+      </ol>
+    </details>
+  </article>
+
+  <div class="test" data-level="5"></div>
+</section>
+
+<nav class="pager" aria-label="Level wechseln">
+  <a href="lvl4.html">◂ LVL 4</a>
+  <a href="index.html">Übersicht</a>
+  <a href="index.html#online">Abschluss ▸</a>
+</nav>
+
+</main>
+
+<footer class="foot">
+  <p>MCP – USB für KI · Ein Lernangebot der Jakob-Preh-Schule ·
+    Quellen: <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">modelcontextprotocol.io</a>,
+    <a href="https://www.jsonrpc.org/specification" target="_blank" rel="noopener">jsonrpc.org</a></p>
+  <p>Der Fortschritt wird nur in diesem Browser gespeichert. <button class="linkbtn" id="reset-progress">Fortschritt zurücksetzen</button></p>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/tests.js"></script>
+<script src="js/sim.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

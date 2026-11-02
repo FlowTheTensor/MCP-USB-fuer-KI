@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LVL 3 · Tools, Resources, Prompts – MCP – USB für KI</title>
+<meta name="description" content="Interaktive Lernseite zum Model Context Protocol (MCP) und JSON-RPC: Verbinde den KI-Kern Level für Level mit der Außenwelt.">
+<meta property="og:title" content="MCP – USB für KI">
+<meta property="og:description" content="Verbinde die Maschinen. Sprich ihre Sprache. Interaktive Lernseite zu MCP und JSON-RPC.">
+<meta property="og:image" content="img/og-image.png">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-text">MCP <span class="dim">–</span> USB für KI</span>
+  </a>
+  <nav class="lvl-nav" id="lvl-nav" aria-label="Level"></nav>
+</header>
+
+<a class="pinned-logo" href="https://www.bsnes.de" target="_blank" rel="noopener" title="Zur Homepage der Jakob-Preh-Schule">
+  <img src="img/logoschulecyber-klein.png" alt="Jakob-Preh-Schule">
+</a>
+
+<main id="top">
+
+<section class="level" id="lvl3" data-level="3">
+  <header class="lvl-head">
+    <span class="lvl-tag">LVL 3 // LINKED</span>
+    <h2>Tools, Resources, Prompts</h2>
+    <p class="lvl-sub">Was ein angeschlossenes Modul dem Kern anbieten kann.</p>
+    <figure class="img-slot banner">
+      <img src="img/lvl3-module.png" alt="Der KI-Kern mit drei angeschlossenen Modulen: Greifarm, Datenspeicher und Befehlskarte" onerror="this.closest('figure').classList.add('missing')">
+      <div class="ph">img/lvl3-module.png</div>
+    </figure>
+  </header>
+
+  <article class="station" id="lvl3-s1">
+    <div class="crumb">LVL 3 · Station 1 · <span class="tag">Grundlagen</span></div>
+    <h3>Die drei Grundbausteine eines Servers</h3>
+    <div class="grid3">
+      <div class="card prim">
+        <h4>⚙ Tools – Aktoren</h4>
+        <p>Funktionen, die etwas <strong>tun</strong> oder berechnen: SQL-Abfrage ausführen, Datei anlegen, Mail senden.</p>
+        <p class="ctrl">gesteuert vom <strong>Modell</strong>: Das LLM entscheidet, wann es ein Tool braucht.</p>
+        <p><code>tools/list</code> · <code>tools/call</code></p>
+      </div>
+      <div class="card prim">
+        <h4>▤ Resources – Speicher</h4>
+        <p>Daten zum <strong>Lesen</strong>, jeweils mit einer Adresse (URI): Dateiinhalt, Datenbankschema, Dokumentation.</p>
+        <p class="ctrl">gesteuert von der <strong>Anwendung</strong>: Der Host bzw. der Mensch wählt aus, was als Kontext mitgegeben wird.</p>
+        <p><code>resources/list</code> · <code>resources/read</code></p>
+      </div>
+      <div class="card prim">
+        <h4>☰ Prompts – Befehlssätze</h4>
+        <p>Vorgefertigte <strong>Vorlagen</strong> für typische Aufgaben, oft mit Platzhaltern, z. B. „Notenbericht für Klasse ___“.</p>
+        <p class="ctrl">gesteuert vom <strong>Menschen</strong>: Er wählt die Vorlage bewusst aus, etwa als Slash-Befehl.</p>
+        <p><code>prompts/list</code> · <code>prompts/get</code></p>
+      </div>
+    </div>
+  </article>
+
+  <article class="station" id="lvl3-s2">
+    <div class="crumb">LVL 3 · Station 2 · <span class="tag">Grundlagen</span></div>
+    <h3>Tools entdecken: <code>tools/list</code></h3>
+    <p>Der Client fragt: „Was kannst du?“ Der Server antwortet mit einer Liste. Jedes Tool hat einen <strong>Namen</strong>,
+      eine <strong>Beschreibung</strong> (die liest das LLM!) und ein <strong>inputSchema</strong>.
+      Das ist ein JSON Schema, das festlegt, welche Parameter erwartet werden.</p>
+<pre class="json">{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "tools": [
+      {
+        "name": "query_database",
+        "description": "Führt eine SQL SELECT-Abfrage auf der Schul-Datenbank aus.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": { "type": "string", "description": "Die SQL SELECT-Abfrage" }
+          },
+          "required": ["query"]
+        }
+      }
+    ]
+  }
+}</pre>
+  </article>
+
+  <article class="station" id="lvl3-s3">
+    <div class="crumb">LVL 3 · Station 3 · <span class="tag">Grundlagen</span></div>
+    <h3>Tools benutzen: <code>tools/call</code></h3>
+    <div>
+      <div>
+        <h4>Anfrage</h4>
+<pre class="json">{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "method": "tools/call",
+  "params": {
+    "name": "query_database",
+    "arguments": {
+      "query": "SELECT vorname, klasse FROM schueler LIMIT 2"
+    }
+  }
+}</pre>
+      </div>
+      <div>
+        <h4>Antwort</h4>
+<pre class="json">{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "[{\"vorname\": \"Anna\", \"klasse\": \"5a\"}, {\"vorname\": \"Leon\", \"klasse\": \"5a\"}]"
+      }
+    ],
+    "isError": false
+  }
+}</pre>
+      </div>
+    </div>
+    <p>Das Ergebnis steckt in <code>result.content</code>, einer Liste von Inhalten. Neben <code>"text"</code> gibt es z. B. auch <code>"image"</code> oder <code>"audio"</code>.</p>
+    <h4>Zwei Arten von Fehlern</h4>
+    <table class="tbl">
+      <thead><tr><th></th><th>Protokollfehler</th><th>Tool-Fehler</th></tr></thead>
+      <tbody>
+        <tr><th>Beispiel</th><td>Tool existiert nicht, Parameter fehlen</td><td>SQL-Abfrage ist falsch, Tabelle nicht gefunden</td></tr>
+        <tr><th>Form</th><td>JSON-RPC-<code>error</code> mit Code (z. B. <code>-32602</code>)</td><td>normales <code>result</code> mit <code>"isError": true</code></td></tr>
+        <tr><th>Wer sieht's?</th><td>der Client bzw. Host</td><td>das <strong>LLM</strong>, das daraus lernen und es neu versuchen kann</td></tr>
+      </tbody>
+    </table>
+  </article>
+
+  <article class="station" id="lvl3-s4">
+    <div class="crumb">LVL 3 · Station 4 · <span class="tag">Interaktiv</span></div>
+    <h3>Terminal: Sprich direkt mit einem MCP-Server</h3>
+    <p>Hier läuft ein <strong>simulierter</strong> MCP-Server, der wie der Server aus SQLite-per-MCP funktioniert (mit Beispieldaten).
+      Du bist jetzt der Client. Schicke JSON-RPC-Nachrichten und beobachte die Antworten.
+      Tipp: Beginne mit dem Handshake. Mit <kbd>Strg</kbd>+<kbd>Enter</kbd> sendest du.</p>
+    <div class="widget terminal" id="term">
+      <div class="term-bar">
+        <span class="led" id="term-led"></span>
+        <span id="term-state">GETRENNT</span>
+        <select id="term-preset" aria-label="Vorlage einfügen">
+          <option value="">– Vorlage einfügen –</option>
+        </select>
+        <button class="btn ghost small" id="term-reset">Neu verbinden</button>
+      </div>
+      <div class="term-log" id="term-log" aria-live="polite"></div>
+      <textarea id="term-in" rows="7" spellcheck="false" placeholder='{"jsonrpc": "2.0", "id": 1, "method": "ping"}'></textarea>
+      <div class="row"><button class="btn" id="term-send">Senden ▸</button></div>
+    </div>
+    <details class="tasks">
+      <summary>Aufträge für das Terminal</summary>
+      <ol>
+        <li>Schicke <code>tools/list</code> <em>vor</em> dem Handshake. Was passiert?</li>
+        <li>Führe den kompletten Handshake durch (3 Nachrichten).</li>
+        <li>Finde heraus, welche Tabellen es gibt und welche Spalten die Tabelle <code>lehrer</code> hat.</li>
+        <li>Lass dir alle Lehrkräfte mit Fach Informatik anzeigen (<code>WHERE fach1 = 'Informatik'</code>).</li>
+        <li>Versuche, mit <code>DELETE FROM schueler</code> Daten zu löschen. Welche Fehlerart bekommst du?</li>
+        <li>Erzeuge absichtlich die Fehler <code>-32700</code>, <code>-32601</code> und <code>-32602</code>.</li>
+        <li>Was antwortet der Server auf eine Notification?</li>
+      </ol>
+    </details>
+  </article>
+
+  <article class="station" id="lvl3-s5">
+    <div class="crumb">LVL 3 · Station 5 · <span class="tag">Erweiterung</span></div>
+    <h3>Benachrichtigungen &amp; Gegenrichtung</h3>
+    <ul>
+      <li><strong>Änderungen melden:</strong> Wenn sich die Werkzeugliste ändert, schickt der Server die Notification
+        <code>notifications/tools/list_changed</code>. Der Client fragt dann erneut <code>tools/list</code> ab.</li>
+      <li><strong>Fortschritt:</strong> Bei langen Aufgaben kann der Server <code>notifications/progress</code> senden.</li>
+      <li><strong>Abbrechen:</strong> Mit <code>notifications/cancelled</code> kann eine laufende Anfrage abgebrochen werden.</li>
+    </ul>
+    <p>Auch der <strong>Client</strong> kann dem Server Fähigkeiten anbieten, wenn er sie beim Handshake ankündigt:</p>
+    <table class="tbl">
+      <tbody>
+        <tr><th>Sampling</th><td>Der Server bittet den Host, das <em>LLM</em> etwas formulieren zu lassen. Der Server braucht dann kein eigenes Modell.</td></tr>
+        <tr><th>Roots</th><td>Der Host teilt mit, in welchen Ordnern der Server arbeiten darf.</td></tr>
+        <tr><th>Elicitation</th><td>Der Server fragt beim Menschen nach einer fehlenden Angabe, z. B. „Für welche Klasse?“</td></tr>
+      </tbody>
+    </table>
+  </article>
+
+  <div class="test" data-level="3"></div>
+</section>
+
+<nav class="pager" aria-label="Level wechseln">
+  <a href="lvl2.html">◂ LVL 2</a>
+  <a href="index.html">Übersicht</a>
+  <a href="lvl4.html">LVL 4 ▸</a>
+</nav>
+
+</main>
+
+<footer class="foot">
+  <p>MCP – USB für KI · Ein Lernangebot der Jakob-Preh-Schule ·
+    Quellen: <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">modelcontextprotocol.io</a>,
+    <a href="https://www.jsonrpc.org/specification" target="_blank" rel="noopener">jsonrpc.org</a></p>
+  <p>Der Fortschritt wird nur in diesem Browser gespeichert. <button class="linkbtn" id="reset-progress">Fortschritt zurücksetzen</button></p>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/tests.js"></script>
+<script src="js/sim.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

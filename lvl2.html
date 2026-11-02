@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LVL 2 · Architektur & Verbindungsaufbau – MCP – USB für KI</title>
+<meta name="description" content="Interaktive Lernseite zum Model Context Protocol (MCP) und JSON-RPC: Verbinde den KI-Kern Level für Level mit der Außenwelt.">
+<meta property="og:title" content="MCP – USB für KI">
+<meta property="og:description" content="Verbinde die Maschinen. Sprich ihre Sprache. Interaktive Lernseite zu MCP und JSON-RPC.">
+<meta property="og:image" content="img/og-image.png">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-text">MCP <span class="dim">–</span> USB für KI</span>
+  </a>
+  <nav class="lvl-nav" id="lvl-nav" aria-label="Level"></nav>
+</header>
+
+<a class="pinned-logo" href="https://www.bsnes.de" target="_blank" rel="noopener" title="Zur Homepage der Jakob-Preh-Schule">
+  <img src="img/logoschulecyber-klein.png" alt="Jakob-Preh-Schule">
+</a>
+
+<main id="top">
+
+<section class="level" id="lvl2" data-level="2">
+  <header class="lvl-head">
+    <span class="lvl-tag">LVL 2 // HANDSHAKE</span>
+    <h2>Architektur &amp; Verbindungsaufbau</h2>
+    <p class="lvl-sub">Wer spricht mit wem, über welches Kabel, und wie erkennen sich die Geräte?</p>
+    <figure class="img-slot banner">
+      <img src="img/lvl2-handshake.png" alt="Zwei mechanische Stecker rasten mit Funkenschlag ineinander" onerror="this.closest('figure').classList.add('missing')">
+      <div class="ph">img/lvl2-handshake.png</div>
+    </figure>
+  </header>
+
+  <article class="station" id="lvl2-s1">
+    <div class="crumb">LVL 2 · Station 1 · <span class="tag">Grundlagen</span></div>
+    <h3>Host, Client, Server</h3>
+    <svg class="arch" viewBox="0 0 640 300" role="img" aria-label="Host mit LLM und drei Clients, jeder verbunden mit einem Server">
+      <rect x="10" y="20" width="270" height="260" rx="10" class="a-host"/>
+      <text x="25" y="45" class="a-title">HOST (KI-Anwendung)</text>
+      <rect x="30" y="65" width="90" height="190" rx="8" class="a-llm"/>
+      <text x="75" y="155" class="a-lbl" text-anchor="middle">LLM</text>
+      <text x="75" y="175" class="a-small" text-anchor="middle">Sprachmodell</text>
+      <g class="a-client"><rect x="150" y="65" width="110" height="50" rx="6"/><text x="205" y="95" text-anchor="middle">Client 1</text></g>
+      <g class="a-client"><rect x="150" y="135" width="110" height="50" rx="6"/><text x="205" y="165" text-anchor="middle">Client 2</text></g>
+      <g class="a-client"><rect x="150" y="205" width="110" height="50" rx="6"/><text x="205" y="235" text-anchor="middle">Client 3</text></g>
+      <path d="M260 90 H400" class="a-wire"/><path d="M260 160 H400" class="a-wire"/><path d="M260 230 H400" class="a-wire dashed"/>
+      <text x="330" y="82" class="a-small" text-anchor="middle">stdio</text>
+      <text x="330" y="152" class="a-small" text-anchor="middle">stdio</text>
+      <text x="330" y="222" class="a-small" text-anchor="middle">HTTP</text>
+      <g class="a-server"><rect x="400" y="65" width="220" height="50" rx="6"/><text x="510" y="88" text-anchor="middle">Server: Dateisystem</text><text x="510" y="105" text-anchor="middle" class="a-small">lokal</text></g>
+      <g class="a-server"><rect x="400" y="135" width="220" height="50" rx="6"/><text x="510" y="158" text-anchor="middle">Server: Schul-Datenbank</text><text x="510" y="175" text-anchor="middle" class="a-small">lokal</text></g>
+      <g class="a-server"><rect x="400" y="205" width="220" height="50" rx="6"/><text x="510" y="228" text-anchor="middle">Server: Wetterdienst</text><text x="510" y="245" text-anchor="middle" class="a-small">im Internet</text></g>
+    </svg>
+    <table class="tbl">
+      <tbody>
+        <tr><th>Host</th><td>Die Anwendung, in der die KI arbeitet, z. B. ein Chat-Programm wie Claude Desktop oder ein Code-Editor.
+          Der Host verwaltet die Verbindungen und entscheidet, was das LLM zu sehen bekommt und was es darf.
+          <br><em>Nicht verwechseln:</em> Der Host ist ein <strong>Programm</strong>. Arbeitet das LLM darin selbstständig in einer Schleife,
+          nennt man es einen <strong>Agenten</strong> (siehe <a href="lvl4.html#lvl4-s3">LVL 4 · Agent oder Host?</a>).</td></tr>
+        <tr><th>Client</th><td>Ein Baustein <em>im</em> Host. Jeder Client hält <strong>genau eine</strong> Verbindung zu <strong>genau einem</strong> Server (1:1).
+          Bei drei Servern hat der Host also drei Clients.</td></tr>
+        <tr><th>Server</th><td>Ein eigenständiges Programm, das Fähigkeiten anbietet: Werkzeuge, Daten oder Vorlagen.
+          Er „übersetzt“ zwischen MCP und dem eigentlichen System (Datenbank, Dateien, Web-API …).</td></tr>
+      </tbody>
+    </table>
+    <p class="note"><strong>Wichtig:</strong> Das LLM selbst spricht <em>kein</em> MCP. Es entscheidet nur, <em>welches</em> Werkzeug benutzt werden soll.
+      Die eigentlichen MCP-Nachrichten verschickt der Client im Host. Mehr dazu in <a href="lvl4.html">LVL 4</a>.</p>
+  </article>
+
+  <article class="station" id="lvl2-s2">
+    <div class="crumb">LVL 2 · Station 2 · <span class="tag">Vergleich</span></div>
+    <h3>Das Kabel: Transport</h3>
+    <div class="grid2">
+      <div class="card">
+        <h4>🔌 stdio (lokal)</h4>
+        <ul>
+          <li>Der <strong>Host startet den Server</strong> als eigenes Programm auf demselben Rechner.</li>
+          <li>Nachrichten laufen über <strong>stdin</strong> (Host → Server) und <strong>stdout</strong> (Server → Host), eine JSON-Nachricht pro Zeile.</li>
+          <li>Auf stdout darf <strong>nur MCP</strong> stehen. Log-Ausgaben gehören nach <strong>stderr</strong>.</li>
+          <li>Ideal für Dateien, lokale Datenbanken und Tools auf dem eigenen PC.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>📡 Streamable HTTP (remote)</h4>
+        <ul>
+          <li>Der Server läuft <strong>eigenständig</strong>, oft im Internet, und kann viele Clients bedienen.</li>
+          <li>Der Client schickt Nachrichten per <strong>HTTP POST</strong> an einen Endpunkt.</li>
+          <li>Der Server kann Antworten auch als Datenstrom (Server-Sent Events) zurückschicken.</li>
+          <li>Anmeldung z. B. über OAuth. Ideal für Online-Dienste.</li>
+        </ul>
+      </div>
+    </div>
+    <p>So wird im Projekt <a href="https://github.com/FlowTheTensor/SQLite-per-MCP" target="_blank" rel="noopener">SQLite-per-MCP</a>
+      der Server in Claude Desktop eingetragen. <code>command</code> und <code>args</code> sagen dem Host, <em>welches Programm er starten</em> soll.
+      Das ist also stdio:</p>
+<pre class="json">{
+  "mcpServers": {
+    "sqlite-schule": {
+      "command": "C:\\SQLite-per-MCP\\venv\\Scripts\\python.exe",
+      "args": ["C:\\SQLite-per-MCP\\src\\index.py"]
+    }
+  }
+}</pre>
+  </article>
+
+  <article class="station" id="lvl2-s3">
+    <div class="crumb">LVL 2 · Station 3 · <span class="tag">Ablauf</span></div>
+    <h3>Der Handshake</h3>
+    <p>Wie ein USB-Gerät beim Einstecken muss sich ein MCP-Server erst <em>vorstellen</em>, bevor gearbeitet wird.
+      Dabei einigen sich beide auf eine <strong>Protokollversion</strong> und tauschen ihre <strong>Capabilities</strong> (Fähigkeiten) aus.</p>
+    <ol class="flow">
+      <li><span class="who c">Client → Server</span> <strong>initialize</strong> (Request): „Hallo, ich spreche Version X und kann Folgendes …“
+<pre class="json">{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "initialize",
+  "params": {
+    "protocolVersion": "2025-06-18",
+    "capabilities": { "sampling": {} },
+    "clientInfo": { "name": "Schul-Host", "version": "1.0.0" }
+  }
+}</pre></li>
+      <li><span class="who s">Server → Client</span> <strong>Antwort</strong>: „Verstanden, ich biete Tools an.“
+<pre class="json">{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "protocolVersion": "2025-06-18",
+    "capabilities": { "tools": { "listChanged": true } },
+    "serverInfo": { "name": "SQLite Schul-Datenbank", "version": "1.0.0" }
+  }
+}</pre></li>
+      <li><span class="who c">Client → Server</span> <strong>notifications/initialized</strong> (Notification): „Alles klar, los geht's.“
+<pre class="json">{ "jsonrpc": "2.0", "method": "notifications/initialized" }</pre></li>
+      <li><span class="who b">Betrieb</span> Jetzt laufen normale Anfragen: <code>tools/list</code>, <code>tools/call</code> …
+        Mit <code>ping</code> kann jede Seite prüfen, ob die andere noch da ist.</li>
+      <li><span class="who b">Ende</span> Die Verbindung wird geschlossen: bei stdio endet der Prozess, bei HTTP die Sitzung.</li>
+    </ol>
+    <p class="note">Die Protokollversion ist ein <strong>Datum</strong> (z. B. <code>2025-06-18</code>). Die jeweils aktuelle Version steht in der
+      <a href="https://modelcontextprotocol.io/specification" target="_blank" rel="noopener">Spezifikation</a>.
+      Durch die Capabilities weiß jede Seite, was die andere kann. Ein Server ohne <code>tools</code>-Capability bekommt also gar nicht erst <code>tools/list</code>.</p>
+  </article>
+
+  <article class="station" id="lvl2-s4">
+    <div class="crumb">LVL 2 · Station 4 · <span class="tag">Interaktiv</span></div>
+    <h3>Handshake-Sortierer</h3>
+    <p>Die Signale sind durcheinandergeraten. Klicke sie in der <strong>richtigen Reihenfolge</strong> an.</p>
+    <div class="widget" id="sorter"></div>
+  </article>
+
+  <div class="test" data-level="2"></div>
+</section>
+
+<nav class="pager" aria-label="Level wechseln">
+  <a href="lvl1.html">◂ LVL 1</a>
+  <a href="index.html">Übersicht</a>
+  <a href="lvl3.html">LVL 3 ▸</a>
+</nav>
+
+</main>
+
+<footer class="foot">
+  <p>MCP – USB für KI · Ein Lernangebot der Jakob-Preh-Schule ·
+    Quellen: <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">modelcontextprotocol.io</a>,
+    <a href="https://www.jsonrpc.org/specification" target="_blank" rel="noopener">jsonrpc.org</a></p>
+  <p>Der Fortschritt wird nur in diesem Browser gespeichert. <button class="linkbtn" id="reset-progress">Fortschritt zurücksetzen</button></p>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/tests.js"></script>
+<script src="js/sim.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

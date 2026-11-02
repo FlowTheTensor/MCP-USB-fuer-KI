@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LVL 1 · JSON & JSON-RPC – MCP – USB für KI</title>
+<meta name="description" content="Interaktive Lernseite zum Model Context Protocol (MCP) und JSON-RPC: Verbinde den KI-Kern Level für Level mit der Außenwelt.">
+<meta property="og:title" content="MCP – USB für KI">
+<meta property="og:description" content="Verbinde die Maschinen. Sprich ihre Sprache. Interaktive Lernseite zu MCP und JSON-RPC.">
+<meta property="og:image" content="img/og-image.png">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-text">MCP <span class="dim">–</span> USB für KI</span>
+  </a>
+  <nav class="lvl-nav" id="lvl-nav" aria-label="Level"></nav>
+</header>
+
+<a class="pinned-logo" href="https://www.bsnes.de" target="_blank" rel="noopener" title="Zur Homepage der Jakob-Preh-Schule">
+  <img src="img/logoschulecyber-klein.png" alt="Jakob-Preh-Schule">
+</a>
+
+<main id="top">
+
+<section class="level" id="lvl1" data-level="1">
+  <header class="lvl-head">
+    <span class="lvl-tag">LVL 1 // SIGNAL</span>
+    <h2>JSON &amp; JSON-RPC</h2>
+    <p class="lvl-sub">Bevor Maschinen sich verbinden, brauchen sie eine gemeinsame Sprache.</p>
+    <figure class="img-slot banner">
+      <img src="img/lvl1-signal.png" alt="Ein Datenstrom aus geschweiften Klammern zwischen zwei Antennen" onerror="this.closest('figure').classList.add('missing')">
+      <div class="ph">img/lvl1-signal.png</div>
+    </figure>
+  </header>
+
+  <article class="station" id="lvl1-s1">
+    <div class="crumb">LVL 1 · Station 1 · <span class="tag">Grundlagen</span></div>
+    <h3>JSON – das Datenformat</h3>
+    <p><strong>JSON</strong> (JavaScript Object Notation) ist ein Textformat für strukturierte Daten.
+      Menschen können es lesen, und praktisch jede Programmiersprache kann es verarbeiten. Alle MCP-Nachrichten sind JSON.</p>
+<pre class="json">{
+  "name": "Kern-7",
+  "ports": 6,
+  "online": true,
+  "temperatur": 41.5,
+  "module": ["Datenbank", "Kalender"],
+  "besitzer": null,
+  "position": { "raum": "B204", "regal": 3 }
+}</pre>
+    <table class="tbl">
+      <thead><tr><th>Datentyp</th><th>Beispiel</th><th>Regel</th></tr></thead>
+      <tbody>
+        <tr><td>String (Text)</td><td><code>"Kern-7"</code></td><td>immer in <strong>doppelten</strong> Anführungszeichen</td></tr>
+        <tr><td>Zahl</td><td><code>6</code>, <code>41.5</code>, <code>-3</code></td><td>ohne Anführungszeichen, Dezimalpunkt statt Komma</td></tr>
+        <tr><td>Boolean</td><td><code>true</code>, <code>false</code></td><td>klein geschrieben</td></tr>
+        <tr><td>null</td><td><code>null</code></td><td>„kein Wert“, klein geschrieben</td></tr>
+        <tr><td>Array (Liste)</td><td><code>[1, 2, 3]</code></td><td>eckige Klammern, Werte mit Komma getrennt</td></tr>
+        <tr><td>Objekt</td><td><code>{"a": 1}</code></td><td>geschweifte Klammern, <em>Schlüssel: Wert</em>-Paare</td></tr>
+      </tbody>
+    </table>
+    <p class="warn"><strong>Typische Fehler:</strong> Schlüssel ohne Anführungszeichen · einfache statt doppelte Anführungszeichen ·
+      Komma nach dem letzten Element · Kommentare (gibt es in JSON nicht) · <code>True</code> statt <code>true</code></p>
+  </article>
+
+  <article class="station" id="lvl1-s2">
+    <div class="crumb">LVL 1 · Station 2 · <span class="tag">Interaktiv</span></div>
+    <h3>JSON-Scanner</h3>
+    <p>Tippe JSON ein oder verändere das Beispiel. Der Scanner prüft, ob dein Signal gültig ist, und zeigt den Aufbau.</p>
+    <div class="widget" id="json-scanner">
+      <textarea id="js-in" spellcheck="false" rows="8">{
+  "modul": "Wetterstation",
+  "sensoren": ["Temperatur", "Wind"],
+  "aktiv": true
+}</textarea>
+      <div class="row">
+        <button class="btn" id="js-scan">Scannen</button>
+        <button class="btn ghost" id="js-break">Fehler einbauen</button>
+      </div>
+      <div id="js-out" class="scan-out" aria-live="polite"></div>
+    </div>
+  </article>
+
+  <article class="station" id="lvl1-s3">
+    <div class="crumb">LVL 1 · Station 3 · <span class="tag">Grundlagen</span></div>
+    <h3>JSON-RPC 2.0 – Befehle über die Leitung</h3>
+    <p><strong>RPC</strong> heißt <em>Remote Procedure Call</em>: Ein Programm ruft eine Funktion auf, die auf einer
+      <em>anderen</em> Maschine (oder in einem anderen Programm) läuft. <strong>JSON-RPC</strong> legt fest, wie solche Aufrufe als JSON aussehen.
+      MCP verwendet genau dieses Format. Es gibt drei Arten von Nachrichten:</p>
+
+    <div class="grid3">
+      <div class="card msg req">
+        <h4>① Request (Anfrage)</h4>
+<pre class="json">{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "method": "tools/list",
+  "params": {}
+}</pre>
+        <p>Hat eine <code>id</code> und erwartet eine Antwort. <code>method</code> sagt, <em>was</em> passieren soll.</p>
+      </div>
+      <div class="card msg res">
+        <h4>② Response (Antwort)</h4>
+<pre class="json">{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "result": { "tools": [] }
+}</pre>
+        <p>Trägt <strong>dieselbe <code>id</code></strong> wie die Anfrage. Enthält <em>entweder</em> <code>result</code> <em>oder</em> <code>error</code>.</p>
+      </div>
+      <div class="card msg note">
+        <h4>③ Notification (Mitteilung)</h4>
+<pre class="json">{
+  "jsonrpc": "2.0",
+  "method": "notifications/initialized"
+}</pre>
+        <p><strong>Keine <code>id</code></strong>, und darauf kommt <strong>keine Antwort</strong>. Wie ein Funkspruch an alle.</p>
+      </div>
+    </div>
+
+    <h4>Wenn etwas schiefgeht: das Error-Objekt</h4>
+<pre class="json">{
+  "jsonrpc": "2.0",
+  "id": 8,
+  "error": { "code": -32601, "message": "Method not found" }
+}</pre>
+    <table class="tbl">
+      <thead><tr><th>Code</th><th>Bedeutung</th><th>Beispiel</th></tr></thead>
+      <tbody>
+        <tr><td><code>-32700</code></td><td>Parse error</td><td>Die Nachricht ist kein gültiges JSON.</td></tr>
+        <tr><td><code>-32600</code></td><td>Invalid Request</td><td>Gültiges JSON, aber keine gültige Anfrage (z. B. <code>"jsonrpc"</code> fehlt).</td></tr>
+        <tr><td><code>-32601</code></td><td>Method not found</td><td>Die Methode gibt es auf dem Server nicht.</td></tr>
+        <tr><td><code>-32602</code></td><td>Invalid params</td><td>Parameter fehlen oder sind falsch.</td></tr>
+        <tr><td><code>-32603</code></td><td>Internal error</td><td>Interner Fehler im Server.</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Merke: <code>"jsonrpc": "2.0"</code> steht in <em>jeder</em> Nachricht, und zwar als String.
+      Die <code>id</code> ist eine Zahl oder ein String und ordnet Anfrage und Antwort einander zu, auch wenn mehrere Anfragen gleichzeitig unterwegs sind.</p>
+  </article>
+
+  <article class="station" id="lvl1-s4">
+    <div class="crumb">LVL 1 · Station 4 · <span class="tag">Interaktiv</span></div>
+    <h3>Signal-Baukasten</h3>
+    <p>Baue eine JSON-RPC-Nachricht zusammen und beobachte, wie sich das JSON verändert.</p>
+    <div class="widget" id="rpc-builder">
+      <div class="controls">
+        <label>Art
+          <select id="rb-kind">
+            <option value="request">Request</option>
+            <option value="notification">Notification</option>
+            <option value="result">Response (result)</option>
+            <option value="error">Response (error)</option>
+          </select></label>
+        <label>Methode
+          <select id="rb-method">
+            <option>ping</option>
+            <option>initialize</option>
+            <option>tools/list</option>
+            <option>tools/call</option>
+            <option>notifications/initialized</option>
+          </select></label>
+        <label>id <input id="rb-id" type="number" value="1" min="0"></label>
+      </div>
+      <pre class="json" id="rb-out"></pre>
+      <p class="readout" id="rb-hint"></p>
+    </div>
+  </article>
+
+  <div class="test" data-level="1"></div>
+</section>
+
+<nav class="pager" aria-label="Level wechseln">
+  <a href="lvl0.html">◂ LVL 0</a>
+  <a href="index.html">Übersicht</a>
+  <a href="lvl2.html">LVL 2 ▸</a>
+</nav>
+
+</main>
+
+<footer class="foot">
+  <p>MCP – USB für KI · Ein Lernangebot der Jakob-Preh-Schule ·
+    Quellen: <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">modelcontextprotocol.io</a>,
+    <a href="https://www.jsonrpc.org/specification" target="_blank" rel="noopener">jsonrpc.org</a></p>
+  <p>Der Fortschritt wird nur in diesem Browser gespeichert. <button class="linkbtn" id="reset-progress">Fortschritt zurücksetzen</button></p>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/tests.js"></script>
+<script src="js/sim.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

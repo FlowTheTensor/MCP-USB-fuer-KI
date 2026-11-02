@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LVL 0 · Warum MCP? – MCP – USB für KI</title>
+<meta name="description" content="Interaktive Lernseite zum Model Context Protocol (MCP) und JSON-RPC: Verbinde den KI-Kern Level für Level mit der Außenwelt.">
+<meta property="og:title" content="MCP – USB für KI">
+<meta property="og:description" content="Verbinde die Maschinen. Sprich ihre Sprache. Interaktive Lernseite zu MCP und JSON-RPC.">
+<meta property="og:image" content="img/og-image.png">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-text">MCP <span class="dim">–</span> USB für KI</span>
+  </a>
+  <nav class="lvl-nav" id="lvl-nav" aria-label="Level"></nav>
+</header>
+
+<a class="pinned-logo" href="https://www.bsnes.de" target="_blank" rel="noopener" title="Zur Homepage der Jakob-Preh-Schule">
+  <img src="img/logoschulecyber-klein.png" alt="Jakob-Preh-Schule">
+</a>
+
+<main id="top">
+
+<section class="level" id="lvl0" data-level="0">
+  <header class="lvl-head">
+    <span class="lvl-tag">LVL 0 // OFFLINE</span>
+    <h2>Warum MCP?</h2>
+    <p class="lvl-sub">Der Kern ist allein – und das Kabelchaos beginnt.</p>
+    <figure class="img-slot banner">
+      <img src="img/lvl0-kabelchaos.png" alt="Links Kabelchaos mit vielen Adaptern, rechts ein einziger sauberer Universalport" onerror="this.closest('figure').classList.add('missing')">
+      <div class="ph">img/lvl0-kabelchaos.png</div>
+    </figure>
+  </header>
+
+  <article class="station" id="lvl0-s1">
+    <div class="crumb">LVL 0 · Station 1 · <span class="tag">Grundlagen</span></div>
+    <h3>Ein Kern ohne Anschlüsse</h3>
+    <p>Ein großes Sprachmodell (<abbr title="Large Language Model">LLM</abbr>) kann genau eine Sache:
+      <strong>Text rein, Text raus.</strong> Es hat beim Training sehr viel gelernt, aber nach dem Training ist es abgeschlossen.</p>
+    <div class="grid2">
+      <div class="card bad">
+        <h4>Ohne Anschlüsse kann der Kern …</h4>
+        <ul>
+          <li>✗ nicht wissen, wie das Wetter <em>heute</em> ist</li>
+          <li>✗ keine Datei auf deinem Rechner lesen</li>
+          <li>✗ nicht in der Schuldatenbank nachsehen</li>
+          <li>✗ keinen Termin eintragen und keine Mail senden</li>
+        </ul>
+      </div>
+      <div class="card good">
+        <h4>Mit Anschlüssen kann der Kern …</h4>
+        <ul>
+          <li>✓ aktuelle Daten abrufen (<em>Kontext</em> bekommen)</li>
+          <li>✓ Werkzeuge benutzen (Datenbank, Dateien, APIs …)</li>
+          <li>✓ Aktionen in der echten Welt auslösen</li>
+          <li>✓ Ergebnisse prüfen und weiterarbeiten</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note"><strong>Model Context Protocol</strong> heißt wörtlich: ein <em>Protokoll</em> (feste Regeln für die Kommunikation),
+      mit dem ein <em>Modell</em> an <em>Kontext</em> kommt, also an die Informationen und Werkzeuge, die es für eine gute Antwort braucht.</p>
+  </article>
+
+  <article class="station" id="lvl0-s2">
+    <div class="crumb">LVL 0 · Station 2 · <span class="tag">Interaktiv</span></div>
+    <h3>Das Kabelchaos</h3>
+    <p>Stell dir vor, jede KI-Anwendung bräuchte für jedes Werkzeug ihren eigenen, speziellen Adapter.
+      Genau so war es vor MCP. Verändere die Anzahl und vergleiche.</p>
+    <div class="widget" id="adapter-calc">
+      <div class="controls">
+        <label>KI-Anwendungen: <output id="ac-n">3</output>
+          <input type="range" id="ac-n-in" min="1" max="6" value="3"></label>
+        <label>Werkzeuge: <output id="ac-m">4</output>
+          <input type="range" id="ac-m-in" min="1" max="8" value="4"></label>
+        <div class="toggle-row">
+          <button class="btn sel" data-mode="chaos">Ohne Standard</button>
+          <button class="btn" data-mode="mcp">Mit MCP</button>
+        </div>
+      </div>
+      <svg id="ac-svg" viewBox="0 0 600 320" aria-label="Verbindungsdiagramm"></svg>
+      <p class="readout" id="ac-readout"></p>
+    </div>
+    <p>Ohne Standard braucht man <strong>N × M</strong> Einzellösungen. Mit einem gemeinsamen Protokoll
+      baut jede KI-Anwendung <em>einen</em> MCP-Client und jedes Werkzeug <em>einen</em> MCP-Server:
+      zusammen nur <strong>N + M</strong>.</p>
+  </article>
+
+  <article class="station" id="lvl0-s3">
+    <div class="crumb">LVL 0 · Station 3 · <span class="tag">Vergleich</span></div>
+    <h3>Warum „USB für KI“?</h3>
+    <table class="tbl">
+      <thead><tr><th>USB</th><th>MCP</th></tr></thead>
+      <tbody>
+        <tr><td>Computer mit USB-Buchsen</td><td><strong>Host</strong>: die KI-Anwendung (z. B. ein Chat-Programm oder eine Programmierumgebung)</td></tr>
+        <tr><td>Die einzelne USB-Buchse</td><td><strong>Client</strong>: eine Verbindung zu genau einem Server</td></tr>
+        <tr><td>USB-Gerät (Maus, Stick, Drucker)</td><td><strong>Server</strong>: Programm, das Werkzeuge oder Daten anbietet</td></tr>
+        <tr><td>Gerät meldet sich an und sagt, was es kann</td><td><strong>Handshake</strong> mit <code>initialize</code> und <em>Capabilities</em></td></tr>
+        <tr><td>USB-Spezifikation: Stecker, Signale, Ablauf</td><td><strong>MCP-Spezifikation</strong>: Nachrichtenformat (JSON-RPC), Ablauf, Fähigkeiten</td></tr>
+        <tr><td>Kabel</td><td><strong>Transport</strong>: lokal über stdio oder übers Netz über HTTP</td></tr>
+      </tbody>
+    </table>
+    <p class="note">MCP wurde im November 2024 von Anthropic als <strong>offener Standard</strong> veröffentlicht.
+      Inzwischen unterstützen ihn viele Anbieter von KI-Anwendungen und Werkzeugen, und er wird unter dem Dach der Linux Foundation weiterentwickelt.
+      Genau das macht einen Standard wertvoll: <em>Alle</em> halten sich an dieselben Regeln.</p>
+  </article>
+
+  <div class="test" data-level="0"></div>
+</section>
+
+<nav class="pager" aria-label="Level wechseln">
+  <span></span>
+  <a href="index.html">Übersicht</a>
+  <a href="lvl1.html">LVL 1 ▸</a>
+</nav>
+
+</main>
+
+<footer class="foot">
+  <p>MCP – USB für KI · Ein Lernangebot der Jakob-Preh-Schule ·
+    Quellen: <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener">modelcontextprotocol.io</a>,
+    <a href="https://www.jsonrpc.org/specification" target="_blank" rel="noopener">jsonrpc.org</a></p>
+  <p>Der Fortschritt wird nur in diesem Browser gespeichert. <button class="linkbtn" id="reset-progress">Fortschritt zurücksetzen</button></p>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="js/tests.js"></script>
+<script src="js/sim.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
