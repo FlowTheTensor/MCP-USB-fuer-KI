@@ -11,7 +11,7 @@ Ein KI-Kern ist isoliert. In sechs Leveln verbinden die Lernenden ihn mit der Au
 | LVL 2 // HANDSHAKE | Host, Client, Server, Transporte (stdio, HTTP), Lebenszyklus | Handshake-Sortierer |
 | LVL 3 // LINKED | Tools, Resources, Prompts, `tools/list`, `tools/call`, Fehlerarten | **Terminal mit simuliertem MCP-Server** |
 | LVL 4 // OPERATOR | Gesamtablauf mit dem LLM, Sicherheit, Agent – Host – Harness, Human-in-the-Loop | Signalverfolgung Schritt für Schritt |
-| LVL 5 // ARCHITECT | Eigenes Tool entwerfen, Praxisbezug zu [SQLite-per-MCP](https://github.com/FlowTheTensor/SQLite-per-MCP) | Tool-Designer (JSON + Python/FastMCP) |
+| LVL 5 // ARCHITECT | Eigenes Tool entwerfen, Praxisbezug zu [SQLite-per-MCP](https://github.com/FlowTheTensor/SQLite-per-MCP), Ausblick auf WebMCP | Tool-Designer (JSON + Python/FastMCP) |
 
 Jedes Level endet mit einem **Clearance-Test**: 5 richtige Antworten in Folge (Fragen werden teils zufällig erzeugt).
 Wer alle sechs Tests besteht, sieht auf der Startseite den Abschluss „SYSTEM ONLINE“.

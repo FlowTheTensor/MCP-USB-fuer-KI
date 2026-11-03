@@ -96,6 +96,46 @@ if __name__ == "__main__":
     </details>
   </article>
 
+  <article class="station" id="lvl5-s3">
+    <div class="crumb">LVL 5 · Station 3 · <span class="tag">Ausblick</span> <span class="tag tag-exp">experimentell</span></div>
+    <h3>Ausblick: WebMCP – Tools direkt in der Webseite</h3>
+    <p>MCP verbindet KI mit <em>eigenen Server-Programmen</em>. Doch viele Werkzeuge stecken heute in <strong>Webseiten</strong>:
+      Stundenplan, Onlineshop, Fahrplanauskunft. Ein KI-Agent müsste sie mühsam „wie ein Mensch“ bedienen: Seite lesen, Knöpfe suchen, klicken.
+      <strong>WebMCP</strong> überträgt die Idee von MCP in den Browser: Eine Webseite meldet ihre Funktionen als Tools beim Browser an,
+      und ein Agent kann sie gezielt aufrufen.</p>
+    <table class="tbl">
+      <thead><tr><th></th><th>MCP</th><th>WebMCP</th></tr></thead>
+      <tbody>
+        <tr><th>Wo laufen die Tools?</th><td>in einem eigenen <strong>Server-Programm</strong> (lokal oder im Netz)</td><td>direkt <strong>in einer Webseite</strong>, als JavaScript</td></tr>
+        <tr><th>Kommunikation</th><td>JSON-RPC über stdio oder HTTP</td><td>über eine Schnittstelle des Browsers</td></tr>
+        <tr><th>Wer ruft auf?</th><td>ein Host bzw. Agent, z. B. Claude Desktop</td><td>ein KI-Agent im oder am Browser</td></tr>
+        <tr><th>Anmeldung</th><td>muss der Server selbst lösen</td><td>nutzt die bestehende Sitzung des Nutzers auf der Seite</td></tr>
+        <tr><th>Reife</th><td>etablierter offener Standard</td><td>Entwurf, experimentell</td></tr>
+      </tbody>
+    </table>
+    <p>Das Prinzip kennst du schon: ein Tool mit <strong>Name</strong>, <strong>Beschreibung</strong> und <strong>Eingabe-Schema</strong>.</p>
+<pre class="plain">// Vereinfachtes Prinzip – die genaue Schreibweise der API ändert sich noch
+modelContext.registerTool({
+  name: "stundenplan_anzeigen",
+  description: "Zeigt den Stundenplan einer Klasse an.",
+  inputSchema: {
+    type: "object",
+    properties: { klasse: { type: "string" } },
+    required: ["klasse"]
+  },
+  async execute({ klasse }) {
+    const plan = await ladeStundenplan(klasse);   // nutzt die Anmeldung des Nutzers
+    return { content: [{ type: "text", text: plan }] };
+  }
+});</pre>
+    <p class="warn"><strong>Stand November 2026:</strong> WebMCP ist ein <strong>Entwurf</strong> einer Arbeitsgruppe beim W3C
+      (Web Machine Learning Community Group), vor allem vorangetrieben von Google und Microsoft, und <strong>noch kein offizieller Standard</strong>.
+      Nur Chrome bietet bisher eine Test-Umsetzung an, andere Browser unterstützen es nicht. Auch der Name der Schnittstelle ändert sich noch.
+      Aktueller Stand: <a href="https://webmachinelearning.github.io/webmcp/" target="_blank" rel="noopener">Spezifikationsentwurf</a>.</p>
+    <p class="note"><strong>Zum Nachdenken:</strong> Die Tools laufen mit der Anmeldung des Nutzers, ein Agent könnte also z. B. im Namen
+      einer Schülerin Nachrichten verschicken. Was bedeutet das für Human-in-the-Loop und für die Gefahren aus <a href="lvl4.html#lvl4-s2">LVL 4</a>?</p>
+  </article>
+
   <div class="test" data-level="5"></div>
 </section>
 

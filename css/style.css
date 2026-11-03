@@ -189,6 +189,7 @@ a.btn:hover { text-shadow: none; }
 }
 .crumb { font: 12px var(--mono); color: var(--muted); letter-spacing: .05em; }
 .tag { color: var(--cyan); border: 1px solid var(--cyan-dim); border-radius: 4px; padding: 0 .4em; }
+.tag.tag-exp { color: var(--amber); border-color: var(--amber); }
 
 .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
